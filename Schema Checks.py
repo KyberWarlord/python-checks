@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 import os
+import time
 
 # main cli for this data healthcheck repo
 
@@ -9,7 +10,8 @@ def main():
     function_map = {
     "help": help,
     "schema": schema_check,
-    "health": health_check,
+    "health": completeness_check,
+    "type-check": data_type_check,
     "start": start,
     "quit": exit
     }    
@@ -85,16 +87,38 @@ def schema_check(url_regex_path=None):
     main()
 
 
-def health_check():
-    pass
+def data_type_check():
+    start()
+    
+    # Read input dataframe and master dataframe from URLs provided by user
+    input_df = pd.read_csv(input_url)
+    master_df = pd.read_csv(master_url)
+    
+    # Check if the columns in the input dataframe match with the columns in the master dataframe
+    if set(input_df.columns) != set(master_df.columns):
+        print("Error: The columns in the input dataframe do not match the columns in the master dataframe.")
+        return
+    
+    # Check if the datatypes of each column in the input dataframe match with the corresponding column in the master dataframe
+    for col in input_df.columns:
+        if input_df[col].dtype != master_df[col].dtype:
+            print(f"Error: The datatype of column {col} does not match between the input dataframe and the master dataframe.")
+            return
+    
+    # If all column datatypes match, print success message
+    print("All column datatypes match between the input dataframe and the master dataframe. Returning to main.")
+    time.sleep(3)
+    main()
+
 
 def completeness_check():
-    
+    print("Succesfully called function.")
     exit()
 
 def help():
-    exit()
-
+    print("help - prints this message\nschema - runs a check that the schema of input dataframe and master dataframe are equivalent\nhealth - runs a check that all cells are not NAN or NULL or NAT in a column of input dataframe")
+    print("type-check - checks if data types in each column for master and input dataframe are equivalent\nstart - define a master and input dataframe")
+    main()
 main()
 
 # create a dictionary mapping keywords to functions
