@@ -37,6 +37,8 @@ def start():
     global input_url
     input_url = input("Please enter the URL for your input dataframe file: ")
 
+    main()
+
 def schema_check(url_regex_path=None):
     start()
     # Check if master_url and input_url are valid URLs
