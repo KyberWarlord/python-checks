@@ -40,7 +40,7 @@ def start():
     main()
 
 def schema_check(url_regex_path=None):
-    start()
+
     # Check if master_url and input_url are valid URLs
     if url_regex_path is not None and os.path.exists(url_regex_path): 
         with open(url_regex_path, 'r') as f:  
@@ -90,8 +90,7 @@ def schema_check(url_regex_path=None):
 
 
 def data_type_check():
-    start()
-    
+        
     # Read input dataframe and master dataframe from URLs provided by user
     input_df = pd.read_csv(input_url)
     master_df = pd.read_csv(master_url)
@@ -123,4 +122,4 @@ def help():
     main()
 main()
 
-# create a dictionary mapping keywords to functions
+
